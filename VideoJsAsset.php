@@ -16,7 +16,6 @@ class VideoJsAsset extends \yii\web\AssetBundle
     ];
 
     public $js = [
-        'ie8/videojs-ie8.min.js',
         'video.min.js',
     ];
 
