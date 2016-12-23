@@ -7,7 +7,7 @@ use yii\helpers\Json;
 use yii\helpers\Html;
 use yii\base\InvalidConfigException;
 
-class Video extends Widget
+class VideoJsWidget extends Widget
 {
     /**
      * @var array the HTML attributes for the input tag.
@@ -50,7 +50,7 @@ class Video extends Widget
     public function registerAssets()
     {
         $view = $this->getView();
-        $obj = VideoAsset::register($view);
+        VideoJsAsset::register($view);
         echo Html::beginTag('video', $this->options);
         if (!empty($this->tags) && is_array($this->tags)) {
             foreach ($this->tags as $tagName => $tags) {
@@ -70,8 +70,7 @@ class Video extends Widget
         }
         echo Html::endTag('video');
         if (!empty($this->clientOptions)) {
-            $js = 'videojs("#' . $this->options['id'] . '").ready(' . Json::encode($this->clientOptions). ');';
-            $view->registerJs($js);
+            $view->registerJs('videojs("#' . $this->options['id'] . '").ready(' . Json::encode($this->clientOptions). ');');
         }
     }
 }
