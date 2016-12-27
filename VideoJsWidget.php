@@ -41,19 +41,21 @@ class VideoJsWidget extends Widget
     protected function initOptions()
     {
         if (!isset($this->options['id'])) {
-            $this->options['id'] = $this->getId().'-vjs';
+            $this->options['id'] = 'video-' . $this->getId();
         }
-        if (!isset($this->options['css'])) {
-            $this->options['css'] = 'video-js vjs-default-skin vjs-big-play-centered';
+        if (!isset($this->options['class'])) {
+            $this->options['class'] = 'video-js vjs-default-skin vjs-big-play-centered';
         }
     }
+
     /**
      * Registers the needed assets
      */
     public function registerAssets()
     {
         $view = $this->getView();
-        VideoJsAsset::register($view);
+        $asset = VideoJsAsset::register($view);
+        $view->registerJs('videojs.options.flash.swf = "' . $asset->baseUrl . '/video-js.swf";');
         echo Html::beginTag('video', $this->options);
         if (!empty($this->tags) && is_array($this->tags)) {
             foreach ($this->tags as $tagName => $tags) {
@@ -74,7 +76,7 @@ class VideoJsWidget extends Widget
         echo Html::endTag('video');
         if (!empty($this->clientOptions)) {
             $clientOptions = Json::encode($this->clientOptions);
-            $view->registerJs('videojs("#' . $this->options['id'] . '").ready(' . $clientOptions. ');');
+            $view->registerJs('videojs("#' . $this->options['id'] . '").ready(' . $clientOptions . ');');
         }
     }
 }
